@@ -3,6 +3,7 @@ import logo from "../img/logo.png";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 import { LoginContext } from "../context/LoginContext";
+import SearchBar from "./SearchBar";
 
 export default function Navbar({ login }) {
   const { setModalOpen } = useContext(LoginContext);
@@ -11,12 +12,13 @@ export default function Navbar({ login }) {
     if (login || token) {
       return [
         <>
+          <SearchBar />
           <Link to="/profile">
             <li>Profile</li>
           </Link>
           <Link to="/createPost">Create Post</Link>
           <Link style={{ marginLeft: "20px" }} to="/followingpost">
-            My Following
+            My Following.
           </Link>
           <Link to={""}>
             <button className="primaryBtn" onClick={() => setModalOpen(true)}>
@@ -28,6 +30,7 @@ export default function Navbar({ login }) {
     } else {
       return [
         <>
+          <SearchBar />
           <Link to="/signup">
             <li>SignUp</li>
           </Link>
