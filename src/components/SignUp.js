@@ -62,9 +62,6 @@ export default function SignUp() {
             <input type="email" name="email" id="email" value={email} placeholder="Email" onChange={(e) => { setEmail(e.target.value) }} />
           </div>
           <div>
-            <input type="text" name="name" id="name" placeholder="Full Name" value={name} onChange={((e) => { setName(e.target.value) })} />
-          </div>
-          <div>
             <input
               type="text"
               name="username"
