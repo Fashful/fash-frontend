@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
 
 export default function ProfilePic({ changeprofile }) {
   const hiddenFileInput = useRef(null);
@@ -9,8 +10,8 @@ export default function ProfilePic({ changeprofile }) {
   const postDetails = () => {
     const data = new FormData();
     data.append("file", image);
-    data.append("upload_preset", "insta-clone");
-    data.append("cloud_name", "cantacloud2");
+    data.append("upload_preset", "fashful");
+    data.append("cloud_name", "dduclvl9s");
     fetch("https://api.cloudinary.com/v1_1/cantacloud2/image/upload", {
       method: "post",
       body: data,
@@ -23,14 +24,14 @@ export default function ProfilePic({ changeprofile }) {
 
   const postPic = () => {
     // saving post to mongodb
-    fetch("http://localhost:5000/uploadProfilePic", {
-      method: "put",
+    fetch("http://127.0.0.1:5000/api/update_image", {
+      method: "post",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
       body: JSON.stringify({
-        pic: url,
+        image_url: url,
       }),
     })
       .then((res) => res.json())
@@ -80,12 +81,7 @@ export default function ProfilePic({ changeprofile }) {
             }}
           />
         </div>
-        <div style={{ borderTop: "1px solid #00000030" }}>
-          <button className="upload-btn" style={{ color: "#ED4956" }}>
-            {" "}
-            Remove Current Photo
-          </button>
-        </div>
+
         <div style={{ borderTop: "1px solid #00000030" }}>
           <button
             style={{
