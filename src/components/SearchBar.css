@@ -1,20 +1,25 @@
-.results-wrapper {
+.result-wrapper {
+  align-items: center; /* Vertically align items */
+  justify-content: space-between; /* Horizontally space items */
   margin: 1rem 1rem 1rem 0;
   padding: 0.5rem;
   max-height: fit-content;
   max-width: fit-content;
-  flex-direction: column;
-  flex: 1;
 }
 
 .result-span {
+  align-items: center; /* Vertically align items */
+  justify-content: space-between; /* Horizontally space items */
   text-align: left;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  display: block;
-  padding: 0.5rem 0.5rem;
+  padding: 0.5rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   position: relative;
-  flex-direction: column;
+}
+
+.result-pic {
+  flex: 1;
+  margin-left: 1rem; /* Add some margin to separate from the name */
 }

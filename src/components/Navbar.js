@@ -43,7 +43,7 @@ export default function Navbar({ login }) {
       return [
         <>
           <Link to="/signin">
-            <li>Sign Up</li>
+            <p>Sign Up</p>
           </Link>
         </>,
       ];
