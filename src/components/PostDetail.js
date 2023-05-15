@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./PostDetail.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -9,10 +9,11 @@ export default function PostDetail({ item, toggleDetails }) {
   // Toast functions
   const notifyA = (msg) => toast.error(msg);
   const notifyB = (msg) => toast.success(msg);
+  const [comment, setComment] = useState();
 
   const removePost = (postId) => {
     if (window.confirm("Do you really want to delete this post ?")) {
-      fetch(`http://localhost:5000/deletePost/${postId}`, {
+      fetch(`http://localhost:5000/api/delete-post/${postId}`, {
         method: "delete",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("jwt"),
@@ -27,12 +28,29 @@ export default function PostDetail({ item, toggleDetails }) {
         });
     }
   };
+  const makeComment = (comment, id) => {
+    fetch(`http://127.0.0.1:5000/api/posts/${id}/make_comment`, {
+      method: "post",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        body: comment
 
+      })
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result)
+      })
+      .catch((err) => console.log(err));
+  }
   return (
     <div className="showComment">
       <div className="container">
         <div className="postPic">
-          <img src={item.photo} alt="" />
+          <img src={item.uploaded_content_url} alt="" />
         </div>
         <div className="details">
           {/* card header */}
@@ -42,15 +60,15 @@ export default function PostDetail({ item, toggleDetails }) {
           >
             <div className="card-pic">
               <img
-                src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8MnwwfHw%3D&auto=format&fit=crop&w=500&q=60"
+                src={item.author_details.profile_image}
                 alt=""
               />
             </div>
-            <h5>{item.postedBy.name}</h5>
+            <h5>{item.author_details.username}</h5>
             <div
               className="deletePost"
               onClick={() => {
-                removePost(item._id);
+                removePost(item.id);
               }}
             >
               <span className="material-symbols-outlined">delete</span>
@@ -66,7 +84,7 @@ export default function PostDetail({ item, toggleDetails }) {
               return (
                 <p className="comm">
                   <span className="commenter" style={{ fontWeight: "bolder" }}>
-                    {comment.postedBy.name}{" "}
+                    {comment.commented_by.username}{" "}
                   </span>
                   <span className="commentText">{comment.comment}</span>
                 </p>
@@ -86,17 +104,17 @@ export default function PostDetail({ item, toggleDetails }) {
             <input
               type="text"
               placeholder="Add a comment"
-              //   value={comment}
-              //   onChange={(e) => {
-              //     setComment(e.target.value);
-              //   }}
+                value={comment}
+                onChange={(e) => {
+                  setComment(e.target.value);
+                }}
             />
             <button
               className="comment"
-              //   onClick={() => {
-              //     makeComment(comment, item._id);
-              //     toggleComment();
-              //   }}
+                onClick={() => {
+                  makeComment(comment, item.id);
+                  // toggleComment();
+                }}
             >
               Post
             </button>
