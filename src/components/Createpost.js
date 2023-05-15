@@ -8,6 +8,8 @@ export default function Createpost() {
   const [image, setImage] = useState("")
   const [url, setUrl] = useState("")
   const navigate = useNavigate()
+  const [name, setName] = useState();
+  const [profileImg, setProfileImg] = useState();
 
   // Toast functions
   const notifyA = (msg) => toast.error(msg)
@@ -15,19 +17,20 @@ export default function Createpost() {
 
 
   useEffect(() => {
-
+    setName(JSON.parse(localStorage.getItem("user")).name)
+    setProfileImg(JSON.parse(localStorage.getItem("user")).image)
     // saving post to mongodb
     if (url) {
 
-      fetch("http://localhost:5000/createPost", {
+      fetch("http://127.0.0.1:5000/api/create-post", {
         method: "post",
         headers: {
           "Content-Type": "application/json",
           "Authorization": "Bearer " + localStorage.getItem("jwt")
         },
         body: JSON.stringify({
-          body,
-          pic: url
+          body: body,
+          content_url: url
         })
       }).then(res => res.json())
         .then(data => {
@@ -50,9 +53,9 @@ export default function Createpost() {
     console.log(body, image)
     const data = new FormData()
     data.append("file", image)
-    data.append("upload_preset", "insta-clone")
-    data.append("cloud_name", "cantacloud2")
-    fetch("https://api.cloudinary.com/v1_1/cantacloud2/image/upload", {
+    data.append("upload_preset", "fashful")
+    data.append("cloud_name", "dduclvl9s")
+    fetch("https://api.cloudinary.com/v1_1/dduclvl9s/image/upload", {
       method: "post",
       body: data
     }).then(res => res.json())
@@ -97,11 +100,11 @@ export default function Createpost() {
         <div className="card-header">
           <div className="card-pic">
             <img
-              src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8MnwwfHw%3D&auto=format&fit=crop&w=500&q=60"
+              src={profileImg}
               alt=""
             />
           </div>
-          <h5>Ramesh</h5>
+          <h5>{name}</h5>
         </div>
         <textarea value={body} onChange={(e) => {
           setBody(e.target.value)
