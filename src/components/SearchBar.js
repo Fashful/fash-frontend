@@ -1,34 +1,80 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { ReactSearchAutocomplete } from "react-search-autocomplete";
 
 export default function SearchBar() {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [setSearchTerm] = useState("");
+  const items = [
+    {
+      id: 0,
+      name: "Cobol",
+    },
+    {
+      id: 1,
+      name: "JavaScript",
+    },
+    {
+      id: 2,
+      name: "Basic",
+    },
+    {
+      id: 3,
+      name: "PHP",
+    },
+    {
+      id: 4,
+      name: "Java",
+    },
+  ];
 
-  const handleSearch = (event) => {
-    event.preventDefault();
-    console.log("Search term:", searchTerm);
-    setSearchTerm("");
+  const handleOnSearch = (searchTerm, results) => {
+    // onSearch will have as the first callback parameter
+    // the string searched and for the second the results.
+    console.log(searchTerm, results);
+  };
+
+  const handleOnHover = (result) => {
+    // the item hovered
+    console.log(result);
+  };
+
+  const handleOnSelect = (item) => {
+    // the item selected
+    setSearchTerm(item);
+    console.log(item);
+  };
+
+  const handleOnFocus = () => {
+    console.log("Focused");
+  };
+
+  const formatResult = (item) => {
+    return (
+      <div className="result-wrapper">
+        <span className="result-span">{item.name}</span>
+      </div>
+    );
   };
 
   return (
     <div>
       <form
-        onSubmit={handleSearch}
+        onSubmit={handleOnSearch}
         style={{ display: "flex", alignItems: "center" }}
       >
-        <input
-          type="text"
-          placeholder="Search"
-          value={searchTerm}
-          onChange={(event) => setSearchTerm(event.target.value)}
-          style={{
-            padding: "0.4rem",
-            border: "1px solid #ccc",
-            borderRadius: "0.25rem 0.25rem 0.25rem 0.25rem",
-            flex: 1,
-          }}
-        />
+        <div style={{ width: 300 }}>
+          <ReactSearchAutocomplete
+            items={items}
+            onSearch={handleOnSearch}
+            onHover={handleOnHover}
+            onSelect={handleOnSelect}
+            onFocus={handleOnFocus}
+            autoFocus
+            formatResult={formatResult}
+          />
+        </div>
+
         <button
           type="submit"
           style={{
@@ -39,7 +85,7 @@ export default function SearchBar() {
             borderRadius: "50%",
           }}
         >
-          <FontAwesomeIcon icon={faSearch} className="text-gray-base text-sm" />
+          <FontAwesomeIcon icon={faSearch} />
         </button>
       </form>
     </div>

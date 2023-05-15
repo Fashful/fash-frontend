@@ -10,12 +10,6 @@ img {
   box-shadow: 1px 5px 5px #e0dcdc;
 }
 
-.searchbar {
-  justify-content: center;
-  align-items: center;
-  padding-left: 10%;
-}
-
 ul {
   display: flex;
   align-items: center;
@@ -49,4 +43,8 @@ a {
 .primaryBtn:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 20px -10px rgba(219, 24, 44, 0.6);
+}
+
+.redirect {
+  margin-left: 20px;
 }
