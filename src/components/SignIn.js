@@ -44,8 +44,8 @@ export default function SignIn() {
           localStorage.setItem("jwt", data.data.access_token)
           localStorage.setItem("user", JSON.stringify(data.data.user))
 
-          // setUserLogin(true)
-          // navigate("/")
+          setUserLogin(true)
+          navigate("/")
         }
         console.log(data)
       })
