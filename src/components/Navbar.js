@@ -43,7 +43,7 @@ export default function Navbar({ login }) {
       return [
         <>
           <Link to="/signin">
-            <li>SignIn</li>
+            <li>Sign Up</li>
           </Link>
         </>,
       ];
@@ -61,7 +61,7 @@ export default function Navbar({ login }) {
       <Link to="/">
         <img src={logo} alt="FashFul Logo" style={{ width: "50%" }} />
       </Link>
-      <li> {searchBar()}</li>
+      <div> {searchBar()}</div>
       <ul className="nav-menu">{loginStatus()}</ul>
     </div>
   );

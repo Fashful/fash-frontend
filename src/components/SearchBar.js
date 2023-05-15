@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
-
 export default function SearchBar() {
   const [setSearchTerm] = useState("");
   const items = [
@@ -52,7 +51,7 @@ export default function SearchBar() {
   const formatResult = (item) => {
     return (
       <div className="result-wrapper">
-        <span className="result-span">{item.name}</span>
+        <div className="result-span">{item.name}</div>
       </div>
     );
   };
@@ -70,8 +69,10 @@ export default function SearchBar() {
             onHover={handleOnHover}
             onSelect={handleOnSelect}
             onFocus={handleOnFocus}
-            autoFocus
             formatResult={formatResult}
+            autoFocus
+            maxResults={5}
+            maxLength={20}
           />
         </div>
 
