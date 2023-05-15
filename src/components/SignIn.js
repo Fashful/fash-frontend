@@ -52,32 +52,57 @@ export default function SignIn() {
   }
 
   return (
+
     <div className="signIn">
-      <div>
-        <div className="loginForm">
-          <img className="signUpLogo" src={logo} alt="" />
-          <div>
-            <input type="email" name="email" id="email" value={email} placeholder="Email" onChange={(e) => { setEmail(e.target.value) }} />
-          </div>
-          <div>
-            <input
-              type="password"
-              name="password"
-              id="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => { setPassword(e.target.value) }}
-            />
-          </div>
-          <input type="submit" id="login-btn" onClick={() => { postData() }} value="Sign In" />
-        </div>
-        <div className="loginForm2">
-          Don't have an account ?
-          <Link to="/signup">
-            <span style={{ color: "blue", cursor: "pointer" }}>Sign Up</span>
-          </Link>
-        </div>
+  <div className="signIn__wrapper">
+    <h1 className="signIn__heading">Welcome Back!</h1>
+    <form className="signIn__form">
+      <div className="signIn__inputContainer">
+        <label htmlFor="email" className="signIn__label">
+          Email Address
+        </label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="signIn__input"
+          required
+        />
       </div>
-    </div>
+      <div className="signIn__inputContainer">
+        <label htmlFor="password" className="signIn__label">
+          Password
+        </label>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="signIn__input"
+          required
+        />
+      </div>
+      <button type="submit" className="signIn__button">
+        Sign In
+      </button>
+      <p className="signIn__forgotPassword">
+        Forgot your password?{" "}
+        <Link to="/forgot-password" className="signIn__link">
+          Reset it here.
+        </Link>
+      </p>
+    </form>
+    <p className="signIn__newAccount">
+      Don't have an account?{" "}
+      <Link to="/signup" className="signIn__link">
+        Create one now.
+      </Link>
+    </p>
+  </div>
+</div>
+
   );
 }
