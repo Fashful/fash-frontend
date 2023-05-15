@@ -41,7 +41,7 @@ export default function SearchBar() {
     // onSearch will have as the first callback parameter
     // the string searched and for the second the results.
     setSearchTerm(search);
-
+    navigate(`/profile/${results[0].id}`);
     console.log(search, results);
   };
 
