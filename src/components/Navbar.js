@@ -12,7 +12,9 @@ export default function Navbar({ login }) {
     if (login || token) {
       return [
         <>
-          <SearchBar />
+          <div className="searchbar">
+            <SearchBar />
+          </div>
           <Link to="/profile">
             <li>Profile</li>
           </Link>
@@ -30,7 +32,6 @@ export default function Navbar({ login }) {
     } else {
       return [
         <>
-          <SearchBar />
           <Link to="/signup">
             <li>SignUp</li>
           </Link>
@@ -44,7 +45,7 @@ export default function Navbar({ login }) {
 
   return (
     <div className="navbar">
-      <img src={logo} alt="" />
+      <img src={logo} alt="" style={{ width: "5%" }} />
       <ul className="nav-menu">{loginStatus()}</ul>
     </div>
   );

@@ -15,7 +15,7 @@ export default function SearchBar() {
     <div>
       <form
         onSubmit={handleSearch}
-        style={{ display: "flex", alignItems: "center", maxWidth: "30rem" }}
+        style={{ display: "flex", alignItems: "center" }}
       >
         <input
           type="text"
@@ -23,22 +23,20 @@ export default function SearchBar() {
           value={searchTerm}
           onChange={(event) => setSearchTerm(event.target.value)}
           style={{
-            padding: "0.5rem",
+            padding: "0.4rem",
             border: "1px solid #ccc",
-            borderRadius: "0.25rem 0 0 0.25rem",
+            borderRadius: "0.25rem 0.25rem 0.25rem 0.25rem",
             flex: 1,
-            marginRight: "-1px",
           }}
         />
         <button
           type="submit"
           style={{
+            marginLeft: "5%",
             backgroundColor: "purple",
             color: "white",
-
             padding: "0.5rem",
-            minWidth: "4rem",
-            flex: "none",
+            borderRadius: "50%",
           }}
         >
           <FontAwesomeIcon icon={faSearch} className="text-gray-base text-sm" />
