@@ -12,9 +12,6 @@ export default function Navbar({ login }) {
     if (login || token) {
       return [
         <>
-          <div className="searchbar">
-            <SearchBar />
-          </div>
           <Link to="/profile">
             <li>Profile</li>
           </Link>
@@ -39,13 +36,19 @@ export default function Navbar({ login }) {
       ];
     }
   };
+  const searchBar = () => {
+    const token = localStorage.getItem("jwt");
+    if (login || token) {
+      return [<SearchBar className="searchbar" />];
+    }
+  };
 
   return (
     <div className="navbar">
       <Link to="/">
         <img src={logo} alt="FashFul Logo" style={{ width: "50%" }} />
       </Link>
-
+      <ul className="searchbar"> {searchBar()}</ul>
       <ul className="nav-menu">{loginStatus()}</ul>
     </div>
   );

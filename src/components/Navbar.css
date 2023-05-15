@@ -11,12 +11,15 @@ img {
 }
 
 .searchbar {
+  justify-content: center;
   align-items: center;
+  padding-left: 10%;
 }
 
 ul {
   display: flex;
-  align-items: baseline;
+  align-items: center;
+  justify-content: space-between;
 }
 
 li {
