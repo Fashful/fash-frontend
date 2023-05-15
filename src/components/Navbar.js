@@ -20,9 +20,9 @@ export default function Navbar({ login }) {
           </Link>
           <Link to="/createPost">Create Post</Link>
           <Link style={{ marginLeft: "20px" }} to="/followingpost">
-            My Following.
+            My Following
           </Link>
-          <Link to={""}>
+          <Link to={"/"}>
             <button className="primaryBtn" onClick={() => setModalOpen(true)}>
               Log Out
             </button>
@@ -32,9 +32,6 @@ export default function Navbar({ login }) {
     } else {
       return [
         <>
-          <Link to="/signup">
-            <li>SignUp</li>
-          </Link>
           <Link to="/signin">
             <li>SignIn</li>
           </Link>
@@ -45,7 +42,10 @@ export default function Navbar({ login }) {
 
   return (
     <div className="navbar">
-      <img src={logo} alt="" style={{ width: "5%" }} />
+      <Link to="/">
+        <img src={logo} alt="FashFul Logo" style={{ width: "50%" }} />
+      </Link>
+
       <ul className="nav-menu">{loginStatus()}</ul>
     </div>
   );
