@@ -18,16 +18,13 @@ export default function UserProfie() {
 
 
   // to follow user
-  const followUser = (userId) => {
-    fetch("http://localhost:5000/follow", {
-      method: "put",
+  const followUser = (name) => {
+    fetch(`http://127.0.0.1:5000/api/follow/${name}`, {
+      method: "get",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
-      body: JSON.stringify({
-        followId: userId,
-      }),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -37,16 +34,13 @@ export default function UserProfie() {
   };
 
   // to unfollow user
-  const unfollowUser = (userId) => {
-    fetch("http://localhost:5000/unfollow", {
-      method: "put",
+  const unfollowUser = (name) => {
+    fetch(`http://127.0.0.1:5000/api/unfollow/${name}`, {
+      method: "get",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
-      body: JSON.stringify({
-        followId: userId,
-      }),
     })
       .then((res) => {
         res.json();
@@ -82,8 +76,9 @@ export default function UserProfie() {
         //   setIsFollow(true);
         // }
 
-        for (let currentUser of result.following) 
+        for (let currentUser of result.followers){
           if (currentUser.user_id == JSON.parse(localStorage.getItem("user")).id) setIsFollow(true);
+        } 
       })
       .catch((err) => console.log(err));;
   }, [isFollow]);
@@ -110,9 +105,9 @@ export default function UserProfie() {
               className="followBtn"
               onClick={() => {
                 if (isFollow) {
-                  unfollowUser(id);
+                  unfollowUser(name);
                 } else {
-                  followUser(id);
+                  followUser(name);
                 }
               }}
             >
