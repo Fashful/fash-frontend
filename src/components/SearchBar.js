@@ -3,9 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import { useNavigate } from "react-router-dom";
+import { getValue } from "@testing-library/user-event/dist/utils";
 export default function SearchBar() {
   var picLink = "https://cdn-icons-png.flaticon.com/128/3177/3177440.png";
   const [SearchTerm, setSearchTerm] = useState("");
+  const [SearchResult, setSearchResult] = useState("");
   const navigate = useNavigate();
   const [user, setUser] = useState("");
   //need to figure how to get users
@@ -41,20 +43,22 @@ export default function SearchBar() {
     // onSearch will have as the first callback parameter
     // the string searched and for the second the results.
     setSearchTerm(search);
-    navigate(`/profile/${results[0].id}`);
-    console.log(search, results);
+
+    setSearchResult(results[0].id);
+    console.log(SearchResult);
+    //console.log(search, results);
   };
 
   const handleOnHover = (result) => {
     // the item hovered
-    console.log(result);
+    //console.log(result);
   };
 
   const handleOnSelect = (item) => {
     // the item selected
     setSearchTerm(item);
     navigate(`/profile/${item.id}`);
-    console.log(item);
+    //console.log(item);
   };
 
   const handleOnFocus = () => {
@@ -74,7 +78,9 @@ export default function SearchBar() {
   return (
     <div>
       <form
-        onSubmit={handleOnSearch}
+        onSubmit={() => {
+          navigate(`/profile/${SearchResult}`);
+        }}
         style={{ display: "flex", alignItems: "center" }}
       >
         <div style={{ width: 300 }}>
