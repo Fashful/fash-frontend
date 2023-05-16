@@ -1,34 +1,53 @@
-.signIn{
-    background-size: cover;
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.signIn {
+  background-size: cover;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.loginForm{
-    background-color: #ffffff4d;
-    padding: 30px;
-    border: 1px solid rgb(129, 121, 121);
-    border-radius: 1px;
-} 
-
-.loginForm2{
-    background-color: #ffffff4d;
-    padding: 20px;
-    margin-top: 5px;
-    border: 1px solid rgb(129, 121, 121);
-    border-radius: 1px;
+.loginForm {
+  background-color: #ffffff4d;
+  padding: 130px;
+  border: 1px solid rgb(129, 121, 121);
+  border-radius: 5px;
 }
 
-#login-btn{
-    background-color: #1773EA;
-    border: none;
-    border-radius: 3px;
-    color: white;
-    font-weight: bold;
-    padding: 5px 10px;
-   
-    cursor: pointer;
-    margin-top: 8px;
+.loginForm2 {
+  background-color: #ffffff4d;
+  padding: 20px;
+  margin-top: 5px;
+  border: 1px solid rgb(129, 121, 121);
+  border-radius: 5px;
+}
+
+#login-btn {
+  background-color: #b174c9;
+  border: none;
+  border-radius: 3px;
+  color: white;
+  font-weight: bold;
+  padding: 5px 10px;
+
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.flip-container {
+  perspective: 1000px;
+}
+.flip {
+  animation-name: flip;
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
+}
+
+@keyframes flip {
+  from {
+    transform: rotateY(0);
+  }
+  to {
+    transform: rotateY(180deg);
+  }
 }
