@@ -43,7 +43,7 @@ export default function Navbar({ login }) {
       return [
         <>
           <Link to="/signin">
-            <p>Sign Up</p>
+            <button className="signup">Sign Up</button>
           </Link>
         </>,
       ];

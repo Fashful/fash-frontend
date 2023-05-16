@@ -31,3 +31,11 @@ img {
 .redirect {
   margin-left: 20px;
 }
+
+.signup {
+  list-style: none;
+  padding: 5px 20px;
+  background-color: rgb(132, 243, 132);
+  font-style: bold;
+  border-radius: 10%;
+}
