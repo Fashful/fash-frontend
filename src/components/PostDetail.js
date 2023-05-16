@@ -13,7 +13,7 @@ export default function PostDetail({ item, toggleDetails }) {
 
   const removePost = (postId) => {
     if (window.confirm("Do you really want to delete this post ?")) {
-      fetch(`http://localhost:5000/api/delete-post/${postId}`, {
+      fetch(`http://127.0.0.1:5000/api/delete-post/${postId}`, {
         method: "delete",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("jwt"),

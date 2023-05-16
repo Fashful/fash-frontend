@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
 
 export default function ProfilePic({ changeprofile }) {
   const hiddenFileInput = useRef(null);
@@ -12,7 +11,7 @@ export default function ProfilePic({ changeprofile }) {
     data.append("file", image);
     data.append("upload_preset", "fashful");
     data.append("cloud_name", "dduclvl9s");
-    fetch("https://api.cloudinary.com/v1_1/cantacloud2/image/upload", {
+    fetch("https://api.cloudinary.com/v1_1/dduclvl9s/image/upload", {
       method: "post",
       body: data,
     })
@@ -38,6 +37,9 @@ export default function ProfilePic({ changeprofile }) {
       .then((data) => {
         console.log(data);
         changeprofile();
+        let user = JSON.parse(localStorage.getItem("user"))
+        user.image = url
+        localStorage.setItem("user", JSON.stringify(user))
         window.location.reload();
       })
       .catch((err) => console.log(err));

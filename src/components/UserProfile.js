@@ -10,17 +10,21 @@ export default function UserProfie() {
   const [user, setUser] = useState("");
   const [posts, setPosts] = useState([]);
 
+  const [profilePhoto, setProfilePhoto] = useState();
+  const [following, setFollowing] = useState();
+  const [followers, setFollowers] = useState();
+  const [name, setName] = useState();
+  const [id, setId] = useState();
+
+
   // to follow user
-  const followUser = (userId) => {
-    fetch("http://localhost:5000/follow", {
-      method: "put",
+  const followUser = (name) => {
+    fetch(`http://127.0.0.1:5000/api/follow/${name}`, {
+      method: "get",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
-      body: JSON.stringify({
-        followId: userId,
-      }),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -30,16 +34,13 @@ export default function UserProfie() {
   };
 
   // to unfollow user
-  const unfollowUser = (userId) => {
-    fetch("http://localhost:5000/unfollow", {
-      method: "put",
+  const unfollowUser = (name) => {
+    fetch(`http://127.0.0.1:5000/api/unfollow/${name}`, {
+      method: "get",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
-      body: JSON.stringify({
-        followId: userId,
-      }),
     })
       .then((res) => {
         res.json();
@@ -51,7 +52,7 @@ export default function UserProfie() {
   };
 
   useEffect(() => {
-    fetch(`http://localhost:5000/user/${userid}`, {
+    fetch(`http://127.0.0.1:5000/api/users/${userid}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
@@ -59,16 +60,27 @@ export default function UserProfie() {
       .then((res) => res.json())
       .then((result) => {
         console.log(result);
-        setUser(result.user);
-        setPosts(result.post);
-        if (
-          result.user.followers.includes(
-            JSON.parse(localStorage.getItem("user"))._id
-          )
-        ) {
-          setIsFollow(true);
-        }
-      });
+        setName(result.username);
+        setFollowers(result.followers);
+        setFollowing(result.following);
+        setProfilePhoto(result.profile_image);
+        setId(result.user_id);
+        setPosts(result.posts);
+
+        if (profilePhoto == 'NULL') setProfilePhoto(picLink);
+        // if (
+        //   result.followers.includes(
+        //     JSON.parse(localStorage.getItem("user"))._id
+        //   )
+        // ) {
+        //   setIsFollow(true);
+        // }
+
+        for (let currentUser of result.followers){
+          if (currentUser.user_id == JSON.parse(localStorage.getItem("user")).id) setIsFollow(true);
+        } 
+      })
+      .catch((err) => console.log(err));;
   }, [isFollow]);
 
   return (
@@ -77,7 +89,7 @@ export default function UserProfie() {
       <div className="profile-frame">
         {/* profile-pic */}
         <div className="profile-pic">
-          <img src={user.Photo ? user.Photo : picLink} alt="" />
+          <img src={profilePhoto ? profilePhoto : picLink} alt="" />
         </div>
         {/* profile-data */}
         <div className="pofile-data">
@@ -88,14 +100,14 @@ export default function UserProfie() {
               justifyContent: "space-between",
             }}
           >
-            <h1>{user.name}</h1>
+            <h1>{name}</h1>
             <button
               className="followBtn"
               onClick={() => {
                 if (isFollow) {
-                  unfollowUser(user._id);
+                  unfollowUser(name);
                 } else {
-                  followUser(user._id);
+                  followUser(name);
                 }
               }}
             >
@@ -104,8 +116,8 @@ export default function UserProfie() {
           </div>
           <div className="profile-info" style={{ display: "flex" }}>
             <p>{posts.length} posts</p>
-            <p>{user.followers ? user.followers.length : "0"} followers</p>
-            <p>{user.following ? user.following.length : "0"} following</p>
+            <p>{followers ? followers.length : "0"} followers</p>
+            <p>{following ? following.length : "0"} following</p>
           </div>
         </div>
       </div>
@@ -122,8 +134,8 @@ export default function UserProfie() {
         {posts.map((pics) => {
           return (
             <img
-              key={pics._id}
-              src={pics.photo}
+              key={pics.id}
+              src={pics.uploaded_content_url}
               // onClick={() => {
               //     toggleDetails(pics)
               // }}
