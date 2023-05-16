@@ -9,7 +9,7 @@ export default function SearchBar() {
   const [SearchTerm, setSearchTerm] = useState("");
   const [SearchResult, setSearchResult] = useState("");
   const navigate = useNavigate();
-  const [user, setUser] = useState("");
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")).id);
   //need to figure how to get users
   const items = [
     {
@@ -43,7 +43,6 @@ export default function SearchBar() {
     // onSearch will have as the first callback parameter
     // the string searched and for the second the results.
     setSearchTerm(search);
-
     setSearchResult(results[0].id);
     console.log(SearchResult);
     //console.log(search, results);
@@ -57,7 +56,8 @@ export default function SearchBar() {
   const handleOnSelect = (item) => {
     // the item selected
     setSearchTerm(item);
-    navigate(`/profile/${item.id}`);
+    let cur_user = JSON.parse(localStorage.getItem("user")).id;
+    navigate(`/profile/${cur_user !== "" ? "?" : item.id}`);
     //console.log(item);
   };
 
@@ -79,7 +79,9 @@ export default function SearchBar() {
     <div>
       <form
         onSubmit={() => {
-          navigate(`/profile/${SearchResult}`);
+          let cur_user = JSON.parse(localStorage.getItem("user")).id;
+
+          navigate(`/profile/${cur_user !== "" ? "?" : SearchResult}`);
         }}
         style={{ display: "flex", alignItems: "center" }}
       >
