@@ -5,12 +5,13 @@ import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 
 export default function Home() {
-  var picLink = "https://cdn-icons-png.flaticon.com/128/3177/3177440.png"
+  var picLink = "https://cdn-icons-png.flaticon.com/128/3177/3177440.png";
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [comment, setComment] = useState("");
   const [show, setShow] = useState(false);
   const [item, setItem] = useState([]);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")).id);
 
   // Toast functions
   const notifyA = (msg) => toast.error(msg);
@@ -95,8 +96,8 @@ export default function Home() {
       method: "post",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     })
       .then((res) => res.json())
       .then((result) => {
@@ -124,14 +125,27 @@ export default function Home() {
             <div className="card-header">
               <div className="card-pic">
                 <img
-                  src={posts.author_details.profile_image !== "NULL" ? posts.author_details.profile_image : picLink}
+                  src={
+                    posts.author_details.profile_image !== "NULL"
+                      ? posts.author_details.profile_image
+                      : picLink
+                  }
                   alt=""
                 />
               </div>
               <h5>
-                <Link to={`/profile/${posts.author_details.user_id}`}>
+                <span
+                  style={{ "text-decoration": "none" }}
+                  onClick={() => {
+                    navigate(
+                      `/profile/${
+                        user !== "" ? "?" : posts.author_details.user_id
+                      }`
+                    );
+                  }}
+                >
                   {posts.author_details.username}
-                </Link>
+                </span>
               </h5>
             </div>
             {/* card image */}
