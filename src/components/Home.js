@@ -23,7 +23,7 @@ export default function Home() {
     }
 
     // Fetching all posts
-    fetch("http://localhost:5000/allposts", {
+    fetch("http://127.0.0.1:5000/api/posts", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
@@ -31,7 +31,7 @@ export default function Home() {
       .then((res) => res.json())
       .then((result) => {
         console.log(result);
-        setData(result);
+        setData(result.posts);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -47,15 +47,12 @@ export default function Home() {
   };
 
   const likePost = (id) => {
-    fetch("http://localhost:5000/like", {
-      method: "put",
+    fetch(`http://127.0.0.1:5000/api/like_unlike/${id}`, {
+      method: "post",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
-      body: JSON.stringify({
-        postId: id,
-      }),
     })
       .then((res) => res.json())
       .then((result) => {
@@ -71,15 +68,12 @@ export default function Home() {
       });
   };
   const unlikePost = (id) => {
-    fetch("http://localhost:5000/unlike", {
-      method: "put",
+    fetch(`http://127.0.0.1:5000/api/like_unlike/${id}`, {
+      method: "post",
       headers: {
         "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
-      body: JSON.stringify({
-        postId: id,
-      }),
     })
       .then((res) => res.json())
       .then((result) => {
@@ -97,16 +91,12 @@ export default function Home() {
 
   // function to make comment
   const makeComment = (text, id) => {
-    fetch("http://localhost:5000/comment", {
-      method: "put",
+    fetch(`http://127.0.0.1:5000/api/posts/${id}/make_comment`, {
+      method: "post",
       headers: {
-        "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-      body: JSON.stringify({
-        text: text,
-        postId: id,
-      }),
+        "Content-Type": "application/json"
+      }
     })
       .then((res) => res.json())
       .then((result) => {
@@ -134,30 +124,30 @@ export default function Home() {
             <div className="card-header">
               <div className="card-pic">
                 <img
-                  src={posts.postedBy.Photo ? posts.postedBy.Photo : picLink}
+                  src={posts.author_details.profile_image !== "NULL" ? posts.author_details.profile_image : picLink}
                   alt=""
                 />
               </div>
               <h5>
-                <Link to={`/profile/${posts.postedBy._id}`}>
-                  {posts.postedBy.name}
+                <Link to={`/profile/${posts.author_details.user_id}`}>
+                  {posts.author_details.username}
                 </Link>
               </h5>
             </div>
             {/* card image */}
             <div className="card-image">
-              <img src={posts.photo} alt="" />
+              <img src={posts.uploaded_content_url} alt="" />
             </div>
 
             {/* card content */}
             <div className="card-content">
               {posts.likes.includes(
-                JSON.parse(localStorage.getItem("user"))._id
+                JSON.parse(localStorage.getItem("user")).id
               ) ? (
                 <span
                   className="material-symbols-outlined material-symbols-outlined-red"
                   onClick={() => {
-                    unlikePost(posts._id);
+                    unlikePost(posts.id);
                   }}
                 >
                   favorite
@@ -166,7 +156,7 @@ export default function Home() {
                 <span
                   className="material-symbols-outlined"
                   onClick={() => {
-                    likePost(posts._id);
+                    likePost(posts.id);
                   }}
                 >
                   favorite
@@ -199,7 +189,7 @@ export default function Home() {
               <button
                 className="comment"
                 onClick={() => {
-                  makeComment(comment, posts._id);
+                  makeComment(comment, posts.id);
                 }}
               >
                 Post
