@@ -33,19 +33,18 @@ export default function PostDetail({ item, toggleDetails }) {
       method: "post",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        body: comment
-
-      })
+        body: comment,
+      }),
     })
       .then((res) => res.json())
       .then((result) => {
-        console.log(result)
+        console.log(result);
       })
       .catch((err) => console.log(err));
-  }
+  };
   return (
     <div className="showComment">
       <div className="container">
@@ -59,10 +58,7 @@ export default function PostDetail({ item, toggleDetails }) {
             style={{ borderBottom: "1px solid #00000029" }}
           >
             <div className="card-pic">
-              <img
-                src={item.author_details.profile_image}
-                alt=""
-              />
+              <img src={item.author_details.profile_image} alt="" />
             </div>
             <h5>{item.author_details.username}</h5>
             <div
@@ -76,10 +72,7 @@ export default function PostDetail({ item, toggleDetails }) {
           </div>
 
           {/* commentSection */}
-          <div
-            className="comment-section"
-            style={{ borderBottom: "1px solid #00000029" }}
-          >
+          <div className="comment-section">
             {item.comments.map((comment) => {
               return (
                 <p className="comm">
@@ -102,19 +95,20 @@ export default function PostDetail({ item, toggleDetails }) {
           <div className="add-comment">
             <span className="material-symbols-outlined">mood</span>
             <input
+              className="comment-input"
               type="text"
               placeholder="Add a comment"
-                value={comment}
-                onChange={(e) => {
-                  setComment(e.target.value);
-                }}
+              value={comment}
+              onChange={(e) => {
+                setComment(e.target.value);
+              }}
             />
             <button
               className="comment"
-                onClick={() => {
-                  makeComment(comment, item.id);
-                  // toggleComment();
-                }}
+              onClick={() => {
+                makeComment(comment, item.id);
+                // toggleComment();
+              }}
             >
               Post
             </button>
