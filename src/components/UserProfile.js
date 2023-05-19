@@ -16,7 +16,6 @@ export default function UserProfie() {
   const [name, setName] = useState();
   const [id, setId] = useState();
 
-
   // to follow user
   const followUser = (name) => {
     fetch(`http://127.0.0.1:5000/api/follow/${name}`, {
@@ -67,7 +66,7 @@ export default function UserProfie() {
         setId(result.user_id);
         setPosts(result.posts);
 
-        if (profilePhoto == 'NULL') setProfilePhoto(picLink);
+        if (profilePhoto == "NULL") setProfilePhoto(picLink);
         // if (
         //   result.followers.includes(
         //     JSON.parse(localStorage.getItem("user"))._id
@@ -76,31 +75,28 @@ export default function UserProfie() {
         //   setIsFollow(true);
         // }
 
-        for (let currentUser of result.followers){
-          if (currentUser.user_id == JSON.parse(localStorage.getItem("user")).id) setIsFollow(true);
-        } 
+        for (let currentUser of result.followers) {
+          if (
+            currentUser.user_id == JSON.parse(localStorage.getItem("user")).id
+          )
+            setIsFollow(true);
+        }
       })
-      .catch((err) => console.log(err));;
+      .catch((err) => console.log(err));
   }, [isFollow]);
 
   return (
     <div className="profile">
       {/* Profile frame */}
       <div className="profile-frame">
-        {/* profile-pic */}
-        <div className="profile-pic">
-          <img src={profilePhoto ? profilePhoto : picLink} alt="" />
-        </div>
         {/* profile-data */}
         <div className="pofile-data">
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
-          >
-            <h1>{name}</h1>
+          {/* profile-pic */}
+          <div className="profile-pic">
+            <img src={profilePhoto ? profilePhoto : picLink} alt="" />
+          </div>
+          <div className="top-container">
+            <h1 className="user-name-display">{name}</h1>
             <button
               className="followBtn"
               onClick={() => {
@@ -111,33 +107,29 @@ export default function UserProfie() {
                 }
               }}
             >
-              {isFollow ? "Unfollow" : "Follow"}
+              <p className="followBtnText">
+                {isFollow ? "Unfollow" : "Follow"}
+              </p>
             </button>
           </div>
-          <div className="profile-info" style={{ display: "flex" }}>
+          <div className="profile-info">
             <p>{posts.length} posts</p>
-            <p>{followers ? followers.length : "0"} followers</p>
-            <p>{following ? following.length : "0"} following</p>
+            <p>{followers ? ` ${followers.length} ` : " 0 "} followers</p>
+            <p>{following ? ` ${following.length} ` : " 0 "} following</p>
           </div>
         </div>
       </div>
-      <hr
-        style={{
-          width: "90%",
-
-          opacity: "0.8",
-          margin: "25px auto",
-        }}
-      />
+      <hr></hr>
       {/* Gallery */}
       <div className="gallery">
         {posts.map((pics) => {
           return (
+            // eslint-disable-next-line jsx-a11y/alt-text
             <img
               key={pics.id}
               src={pics.uploaded_content_url}
               // onClick={() => {
-              //     toggleDetails(pics)
+              //   toggleDetails(pics);
               // }}
               className="item"
             ></img>
