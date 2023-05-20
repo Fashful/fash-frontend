@@ -190,9 +190,10 @@ export default function Home() {
             </div>
 
             {/* add Comment */}
-            <div className="add-comment">
+            <div className="add-comment-home">
               <span className="material-symbols-outlined">mood</span>
               <input
+                className="comment-input-home"
                 type="text"
                 placeholder="Add a comment"
                 value={comment}
@@ -201,7 +202,7 @@ export default function Home() {
                 }}
               />
               <button
-                className="comment"
+                className="comment-home"
                 onClick={() => {
                   makeComment(comment, posts.id);
                 }}

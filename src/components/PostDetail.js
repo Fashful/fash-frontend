@@ -93,7 +93,6 @@ export default function PostDetail({ item, toggleDetails }) {
 
           {/* add Comment */}
           <div className="add-comment">
-            <span className="material-symbols-outlined">mood</span>
             <input
               className="comment-input"
               type="text"
@@ -104,7 +103,7 @@ export default function PostDetail({ item, toggleDetails }) {
               }}
             />
             <button
-              className="comment"
+              className="post-comment"
               onClick={() => {
                 makeComment(comment, item.id);
                 // toggleComment();
