@@ -72,7 +72,7 @@ export default function SignIn() {
           <input type="submit" id="login-btn" onClick={() => { postData() }} value="Sign In" />
         </div>
         <div className="loginForm2">
-          Don't have an account ?
+          Don't have an account? &nbsp;
           <Link to="/signup">
             <span style={{ color: "blue", cursor: "pointer" }}>Sign Up</span>
           </Link>
