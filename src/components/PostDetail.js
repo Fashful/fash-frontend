@@ -93,7 +93,6 @@ export default function PostDetail({ item, toggleDetails }) {
 
           {/* add Comment */}
           <div className="add-comment">
-            <span className="material-symbols-outlined">mood</span>
             <input
               className="comment-input"
               type="text"
