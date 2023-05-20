@@ -78,7 +78,6 @@ export default function Createpost() {
       {/* //header */}
       <div className="post-header">
         <h4 style={{ margin: "3px auto" }}>Create New Post</h4>
-        <button id="post-btn" onClick={() => { postDetails() }}>Share</button>
       </div>
       {/* image preview */}
       <div className="main-div">
