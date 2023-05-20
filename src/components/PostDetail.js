@@ -104,7 +104,7 @@ export default function PostDetail({ item, toggleDetails }) {
               }}
             />
             <button
-              className="comment"
+              className="post-comment"
               onClick={() => {
                 makeComment(comment, item.id);
                 // toggleComment();

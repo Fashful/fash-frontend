@@ -77,9 +77,15 @@
 
 .add-comment {
   margin-top: 10px;
-  display: -webkit-inline-flex;
+  display: inline-table;
 }
 
 .comment-input {
-  width: 400px;
+  width: 60%;
+}
+.post-comment {
+  position: inherit;
+  font-weight: bold;
+  background-color: none;
+  color: #339ce3;
 }

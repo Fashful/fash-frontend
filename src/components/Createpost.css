@@ -1,5 +1,5 @@
 .createPost {
-  max-width: 500px;
+  max-width: 30%;
   margin: 10px auto;
   border: 1px solid rgb(173, 173, 173);
   border-radius: 5px;
@@ -22,6 +22,7 @@
 }
 
 #post-btn {
+  right: 0;
   border: none;
   color: #339ce3;
   background: none;
@@ -50,12 +51,12 @@
 }
 
 .details {
-  max-width: 450px;
+  max-width: 90%;
   border-top: 1px solid rgb(173, 173, 173);
   padding-top: 10px;
 }
 
-textarea {
+.description {
   max-width: 90%;
   border: none;
   outline: none;
@@ -66,7 +67,7 @@ textarea {
 }
 
 #output {
-  width: 100%;
+  width: 80%;
   border: none;
   outline: none;
   margin-top: 5px;
