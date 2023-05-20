@@ -3,6 +3,15 @@ import logo from "../img/logo.png";
 import "./Navbar.css";
 import { Link } from "react-router-dom";
 import { LoginContext } from "../context/LoginContext";
+import SearchBar from "./SearchBar";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faHouse,
+  faHeart,
+  faPlusCircle,
+  faUser,
+  faArrowRightFromBracket,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function Navbar({ login }) {
   const { setModalOpen } = useContext(LoginContext);
@@ -11,16 +20,21 @@ export default function Navbar({ login }) {
     if (login || token) {
       return [
         <>
-          <Link to="/profile">
-            <li>Profile</li>
+          <Link className="redirect" to="/">
+            <FontAwesomeIcon icon={faHouse} />
           </Link>
-          <Link to="/createPost">Create Post</Link>
-          <Link style={{ marginLeft: "20px" }} to="/followingpost">
-            My Following
+          <Link className="redirect" to="/profile">
+            <FontAwesomeIcon icon={faUser} />
           </Link>
-          <Link to={""}>
+          <Link className="redirect" to="/createPost">
+            <FontAwesomeIcon icon={faPlusCircle} />
+          </Link>
+          <Link className="redirect" to="/followingpost">
+            <FontAwesomeIcon icon={faHeart} />
+          </Link>
+          <Link className="redirect" to={"/"}>
             <button className="primaryBtn" onClick={() => setModalOpen(true)}>
-              Log Out
+              <FontAwesomeIcon icon={faArrowRightFromBracket} size="lg" />
             </button>
           </Link>
         </>,
@@ -28,20 +42,26 @@ export default function Navbar({ login }) {
     } else {
       return [
         <>
-          <Link to="/signup">
-            <li>SignUp</li>
-          </Link>
           <Link to="/signin">
-            <li>SignIn</li>
+            <button className="signup">Sign Up</button>
           </Link>
         </>,
       ];
     }
   };
+  const searchBar = () => {
+    const token = localStorage.getItem("jwt");
+    if (login || token) {
+      return [<SearchBar />];
+    }
+  };
 
   return (
     <div className="navbar">
-      <img src={logo} alt="" />
+      <Link to="/">
+        <img src={logo} alt="FashFul Logo" style={{ width: "50%" }} />
+      </Link>
+      <div> {searchBar()}</div>
       <ul className="nav-menu">{loginStatus()}</ul>
     </div>
   );
