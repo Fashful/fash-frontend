@@ -72,7 +72,7 @@ export default function Createpost() {
     <div className="createPost">
       {/* //header */}
       <div className="post-header">
-        <h4 style={{ margin: "3px auto" }}>Create New Post</h4>
+        <h4 className="create-post-header-text">Create New Post</h4>
         <button
           id="post-btn"
           onClick={() => {
