@@ -78,6 +78,7 @@
 .add-comment {
   margin-top: 10px;
   display: inline-table;
+  align-items: flex-end;
 }
 
 .comment-input {
