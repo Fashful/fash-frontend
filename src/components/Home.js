@@ -193,6 +193,7 @@ export default function Home() {
             <div className="add-comment">
               <span className="material-symbols-outlined">mood</span>
               <input
+                className="comment-input"
                 type="text"
                 placeholder="Add a comment"
                 value={comment}
