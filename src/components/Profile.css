@@ -1,56 +1,94 @@
 .profile {
-  max-width: 600px;
+  max-width: 800px;
   margin: 10px auto;
+  margin-top: 3%;
 }
 
 .profile-frame {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-around;
 }
 
 .profile-pic {
   height: fit-content;
+  margin-bottom: 20px;
 }
+
 .profile-pic > img {
-  width: 160px;
-  height: 160px;
-  object-fit: contain;
-  border-radius: 100px;
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .profile-data {
   text-align: left;
 }
+
+.profile-info {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
 .profile-info p {
-  padding: 0px 5px;
+  display: inline-flex;
+  margin: 10px;
+  width: max-content;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .gallery {
   display: flex;
   flex-wrap: wrap;
-  text-align: center;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
 }
 
 .gallery img {
-  width: 30%;
+  width: 200px;
+  height: 200px;
   margin: 10px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.top-container {
+  display: grid;
+  margin-bottom: 20px;
+  justify-content: center;
+}
+.user-name-display {
+  text-align: center;
+  flex: 1;
+}
+.followBtnText {
+  text-align: center;
+  padding-left: 5%;
+  padding-right: 5%;
 }
 
 .followBtn {
+  flex: 1;
+  width: 100px;
+  height: 50px;
   cursor: pointer;
   font-weight: bolder;
-  padding: 13px 25px;
+  margin: 8px;
   border-radius: 15px;
   font-size: 0.8rem;
   border: none;
   color: white;
-  background: #0115eb;
+  background: #9354a1;
   transition: all 0.25s ease;
-  margin-left: 20px;
+  white-space: nowrap;
 }
 
 .followBtn:hover {
-  transform: scale(1.1);
+  transform: scale(1.05);
   box-shadow: 0 10px 20px -10px #0115eb;
 }
 
@@ -68,6 +106,36 @@
   background: none;
   border: none;
   font-weight: bolder;
-
   font-size: 15px;
+}
+
+/* Animation */
+@keyframes scaleIn {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes shadowIn {
+  from {
+    box-shadow: 0 0 0 0 #0115eb;
+  }
+  to {
+    box-shadow: 0 10px 20px -10px #0115eb;
+  }
+}
+
+.followBtn {
+  animation: scaleIn 0.3s forwards;
+}
+
+.followBtn:hover {
+  animation: shadowIn 0.3s forwards;
+}
+
+hr {
+  max-width: 200%;
 }
