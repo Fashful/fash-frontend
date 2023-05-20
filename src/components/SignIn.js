@@ -51,33 +51,34 @@ export default function SignIn() {
       })
   }
 
-  return (
-    <div className="signIn">
-      <div>
-        <div className="loginForm">
-          <img className="signUpLogo" src={logo} alt="" />
-          <div>
-            <input type="email" name="email" id="email" value={email} placeholder="Email" onChange={(e) => { setEmail(e.target.value) }} />
+    return (
+      <div className="signIn">
+        <div>
+          <div className="loginForm">
+            <img className="signUpLogo" src={logo} alt="" />
+            <div>
+              <input type="email" name="email" id="email" value={email} placeholder="Email" onChange={(e) => { setEmail(e.target.value) }} />
+            </div>
+            <div>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => { setPassword(e.target.value) }}
+              />
+            </div>
+            <input type="submit" id="login-btn" onClick={() => { postData() }} value="Sign In" />
           </div>
-          <div>
-            <input
-              type="password"
-              name="password"
-              id="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => { setPassword(e.target.value) }}
-            />
+          <div className="loginForm2">
+            Don't have an account ?
+            <Link to="/signup">
+              <span style={{ color: "blue", cursor: "pointer" }}>Sign Up</span>
+            </Link>
           </div>
-          <input type="submit" id="login-btn" onClick={() => { postData() }} value="Sign In" />
-        </div>
-        <div className="loginForm2">
-          Don't have an account ?
-          <Link to="/signup">
-            <span style={{ color: "blue", cursor: "pointer" }}>Sign Up</span>
-          </Link>
         </div>
       </div>
-    </div>
-  );
+    );
+
 }
