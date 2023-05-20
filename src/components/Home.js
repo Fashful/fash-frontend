@@ -191,7 +191,6 @@ export default function Home() {
 
             {/* add Comment */}
             <div className="add-comment-home">
-              <span className="material-symbols-outlined">mood</span>
               <input
                 className="comment-input-home"
                 type="text"
