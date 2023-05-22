@@ -3,15 +3,17 @@ import "./Home.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export default function MyFolliwngPost() {
+export default function Home() {
   var picLink = "https://cdn-icons-png.flaticon.com/128/3177/3177440.png"
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [comment, setComment] = useState("");
   const [show, setShow] = useState(false);
   const [item, setItem] = useState([]);
-
+  const [likeIDs, setLikeIDs] = useState([]);
+  
   // Toast functions
   const notifyA = (msg) => toast.error(msg);
   const notifyB = (msg) => toast.success(msg);
@@ -23,7 +25,7 @@ export default function MyFolliwngPost() {
     }
 
     // Fetching all posts
-    fetch("http://127.0.0.1:5000/api/followed_users_posts", {
+    fetch("http://127.0.0.1:5000/api/posts", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
@@ -31,9 +33,28 @@ export default function MyFolliwngPost() {
       .then((res) => res.json())
       .then((result) => {
         console.log(result);
-        setData(result.followed_posts);
+        setData(result.posts);
+
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {console.log(err); navigate("./signin");});
+        // Fetching all likes from posts
+    fetch("http://127.0.0.1:5000/api/get_like_for_all_posts", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        let json = {}
+        result.all_posts_likes.forEach(item => {
+          Object.keys(item).forEach(key => {
+            json[key] = item[key];
+          });
+        });
+        setLikeIDs(json)
+
+      })
+      .catch((err) => {console.log(err); navigate("./signin");});
   }, []);
 
   // to show and hide comments
@@ -45,48 +66,22 @@ export default function MyFolliwngPost() {
       setItem(posts);
     }
   };
-
+  const checkLike = (id) => {
+    if (likeIDs[id] !== undefined) return (likeIDs[id]).includes(JSON.parse(localStorage.getItem("user")).id)
+    else return false
+  }
   const likePost = (id) => {
     fetch(`http://127.0.0.1:5000/api/like_unlike/${id}`, {
       method: "post",
       headers: {
-        "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
+      }
     })
       .then((res) => res.json())
       .then((result) => {
-        const newData = data.map((posts) => {
-          if (posts._id == result._id) {
-            return result;
-          } else {
-            return posts;
-          }
-        });
-        setData(newData);
-        console.log(result);
-      });
-  };
-  const unlikePost = (id) => {
-    fetch(`http://127.0.0.1:5000/api/like_unlike/${id}`, {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        const newData = data.map((posts) => {
-          if (posts._id == result._id) {
-            return result;
-          } else {
-            return posts;
-          }
-        });
-        setData(newData);
-        console.log(result);
-      });
+        console.log(result)
+      })
+      .catch((err) => console.log(err));
   };
 
   // function to make comment
@@ -96,22 +91,17 @@ export default function MyFolliwngPost() {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
         "Content-Type": "application/json"
-      }
+      },
+      body: JSON.stringify({
+        body: text
+
+      })
     })
       .then((res) => res.json())
       .then((result) => {
-        const newData = data.map((posts) => {
-          if (posts._id == result._id) {
-            return result;
-          } else {
-            return posts;
-          }
-        });
-        setData(newData);
-        setComment("");
-        notifyB("Comment posted");
-        console.log(result);
-      });
+        console.log(result)
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -141,13 +131,11 @@ export default function MyFolliwngPost() {
 
             {/* card content */}
             <div className="card-content">
-              {posts.likes.includes(
-                JSON.parse(localStorage.getItem("user")).id
-              ) ? (
+              {checkLike(posts.id) ? (
                 <span
                   className="material-symbols-outlined material-symbols-outlined-red"
                   onClick={() => {
-                    unlikePost(posts.id);
+                    likePost(posts.id);
                   }}
                 >
                   favorite

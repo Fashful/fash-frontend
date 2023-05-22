@@ -3,16 +3,17 @@ import "./Home.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
-  var picLink = "https://cdn-icons-png.flaticon.com/128/3177/3177440.png";
+  var picLink = "https://cdn-icons-png.flaticon.com/128/3177/3177440.png"
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [comment, setComment] = useState("");
   const [show, setShow] = useState(false);
   const [item, setItem] = useState([]);
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")).id);
-
+  const [likeIDs, setLikeIDs] = useState([]);
+  
   // Toast functions
   const notifyA = (msg) => toast.error(msg);
   const notifyB = (msg) => toast.success(msg);
@@ -24,7 +25,7 @@ export default function Home() {
     }
 
     // Fetching all posts
-    fetch("http://127.0.0.1:5000/api/posts", {
+    fetch("http://127.0.0.1:5000/api/posts/random", {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
       },
@@ -33,8 +34,27 @@ export default function Home() {
       .then((result) => {
         console.log(result);
         setData(result.posts);
+
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {console.log(err); navigate("./signin");});
+        // Fetching all likes from posts
+    fetch("http://127.0.0.1:5000/api/get_like_for_all_posts", {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("jwt"),
+      },
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        let json = {}
+        result.all_posts_likes.forEach(item => {
+          Object.keys(item).forEach(key => {
+            json[key] = item[key];
+          });
+        });
+        setLikeIDs(json)
+
+      })
+      .catch((err) => {console.log(err); navigate("./signin");});
   }, []);
 
   // to show and hide comments
@@ -46,48 +66,22 @@ export default function Home() {
       setItem(posts);
     }
   };
-
+  const checkLike = (id) => {
+    if (likeIDs[id] !== undefined) return (likeIDs[id]).includes(JSON.parse(localStorage.getItem("user")).id)
+    else return false
+  }
   const likePost = (id) => {
     fetch(`http://127.0.0.1:5000/api/like_unlike/${id}`, {
       method: "post",
       headers: {
-        "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
+      }
     })
       .then((res) => res.json())
       .then((result) => {
-        const newData = data.map((posts) => {
-          if (posts._id == result._id) {
-            return result;
-          } else {
-            return posts;
-          }
-        });
-        setData(newData);
-        console.log(result);
-      });
-  };
-  const unlikePost = (id) => {
-    fetch(`http://127.0.0.1:5000/api/like_unlike/${id}`, {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + localStorage.getItem("jwt"),
-      },
-    })
-      .then((res) => res.json())
-      .then((result) => {
-        const newData = data.map((posts) => {
-          if (posts._id == result._id) {
-            return result;
-          } else {
-            return posts;
-          }
-        });
-        setData(newData);
-        console.log(result);
-      });
+        console.log(result)
+      })
+      .catch((err) => console.log(err));
   };
 
   // function to make comment
@@ -96,23 +90,18 @@ export default function Home() {
       method: "post",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("jwt"),
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
+      body: JSON.stringify({
+        body: text
+
+      })
     })
       .then((res) => res.json())
       .then((result) => {
-        const newData = data.map((posts) => {
-          if (posts._id == result._id) {
-            return result;
-          } else {
-            return posts;
-          }
-        });
-        setData(newData);
-        setComment("");
-        notifyB("Comment posted");
-        console.log(result);
-      });
+        console.log(result)
+      })
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -125,27 +114,14 @@ export default function Home() {
             <div className="card-header">
               <div className="card-pic">
                 <img
-                  src={
-                    posts.author_details.profile_image !== "NULL"
-                      ? posts.author_details.profile_image
-                      : picLink
-                  }
+                  src={posts.author_details.profile_image !== "NULL" ? posts.author_details.profile_image : picLink}
                   alt=""
                 />
               </div>
               <h5>
-                <span
-                  style={{ "text-decoration": "none" }}
-                  onClick={() => {
-                    navigate(
-                      `/profile/${
-                        user !== "" ? "?" : posts.author_details.user_id
-                      }`
-                    );
-                  }}
-                >
+                <Link to={`/profile/${posts.author_details.user_id}`}>
                   {posts.author_details.username}
-                </span>
+                </Link>
               </h5>
             </div>
             {/* card image */}
@@ -155,13 +131,11 @@ export default function Home() {
 
             {/* card content */}
             <div className="card-content">
-              {posts.likes.includes(
-                JSON.parse(localStorage.getItem("user")).id
-              ) ? (
+              {checkLike(posts.id) ? (
                 <span
                   className="material-symbols-outlined material-symbols-outlined-red"
                   onClick={() => {
-                    unlikePost(posts.id);
+                    likePost(posts.id);
                   }}
                 >
                   favorite
@@ -190,9 +164,9 @@ export default function Home() {
             </div>
 
             {/* add Comment */}
-            <div className="add-comment-home">
+            <div className="add-comment">
+              <span className="material-symbols-outlined">mood</span>
               <input
-                className="comment-input-home"
                 type="text"
                 placeholder="Add a comment"
                 value={comment}
@@ -201,7 +175,7 @@ export default function Home() {
                 }}
               />
               <button
-                className="comment-home"
+                className="comment"
                 onClick={() => {
                   makeComment(comment, posts.id);
                 }}
