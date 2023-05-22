@@ -3,7 +3,6 @@ import "./Home.css";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   var picLink = "https://cdn-icons-png.flaticon.com/128/3177/3177440.png"
